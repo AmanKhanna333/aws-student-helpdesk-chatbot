@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Helpdesk — Manipal Institute of Technology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#f5f5f0;
+  --white:#ffffff;
+  --grey1:#f0ede8;
+  --grey2:#e8e4dd;
+  --grey3:#d4cfc8;
+  --grey4:#a89e92;
+  --grey5:#6b6560;
+  --grey6:#3d3a36;
+  --orange1:#ff6b2b;
+  --orange2:#ff8f5a;
+  --orange3:#ffa878;
+  --orange4:#fff0e8;
+  --orange5:#fff8f3;
+  --text:#2a2724;
+  --muted:#7a7268;
+  --border:#e0dbd3;
+  --shadow:rgba(60,50,40,0.08);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--grey1);}
+::-webkit-scrollbar-thumb{background:var(--grey3);border-radius:4px;}
+
+/* ── ANIMATED BACKGROUND ── */
+.bg-pattern{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-circle{position:absolute;border-radius:50%;filter:blur(60px);}
+.bc1{width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,43,0.06),transparent 70%);top:-100px;right:-100px;animation:drift 18s ease-in-out infinite;}
+.bc2{width:400px;height:400px;background:radial-gradient(circle,rgba(255,143,90,0.05),transparent 70%);bottom:-50px;left:-50px;animation:drift 24s ease-in-out infinite reverse;}
+.bc3{width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,43,0.04),transparent 70%);top:40%;left:30%;animation:drift 20s ease-in-out infinite 5s;}
+@keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-15px);}}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 20px var(--shadow);
+}
+.header-left{display:flex;align-items:center;gap:14px;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--orange1),var(--orange2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 12px rgba(255,107,43,0.3);}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);letter-spacing:-0.02em;}
+.logo-text span{color:var(--orange1);}
+.logo-sub{font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.status-badge{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--grey5);background:var(--grey1);border:1px solid var(--border);padding:6px 12px;border-radius:20px;font-family:'JetBrains Mono',monospace;}
+.status-dot{width:7px;height:7px;background:#52c98b;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.powered-badge{font-size:0.72rem;color:var(--muted);background:var(--orange4);border:1px solid rgba(255,107,43,0.15);padding:6px 12px;border-radius:20px;font-family:'JetBrains Mono',monospace;}
+
+/* ── MAIN LAYOUT ── */
+.main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 40px 80px;display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start;}
+@media(max-width:900px){.main{grid-template-columns:1fr;padding:24px 20px 60px;}}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px;}
+.sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:0 4px 20px var(--shadow);}
+.sidebar-title{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:0.02em;text-transform:uppercase;}
+.quick-btns{display:flex;flex-direction:column;gap:8px;}
+.qbtn{padding:11px 14px;border:1px solid var(--border);background:var(--grey1);border-radius:12px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--grey6);cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:10px;font-weight:500;}
+.qbtn:hover{background:var(--orange4);border-color:rgba(255,107,43,0.3);color:var(--orange1);transform:translateX(3px);}
+.qbtn-icon{font-size:1rem;flex-shrink:0;}
+.info-card{background:linear-gradient(135deg,var(--orange1),var(--orange2));border-radius:20px;padding:24px;color:white;box-shadow:0 8px 30px rgba(255,107,43,0.25);}
+.info-card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px;}
+.info-card-text{font-size:0.82rem;opacity:0.9;line-height:1.6;margin-bottom:16px;}
+.info-card-contact{font-family:'JetBrains Mono',monospace;font-size:0.72rem;opacity:0.85;display:flex;flex-direction:column;gap:4px;}
+.topic-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{padding:5px 12px;background:var(--orange4);border:1px solid rgba(255,107,43,0.2);border-radius:20px;font-size:0.75rem;color:var(--orange1);cursor:pointer;transition:all 0.2s;font-weight:500;}
+.tag:hover{background:var(--orange1);color:white;}
+
+/* ── CHAT AREA ── */
+.chat-area{display:flex;flex-direction:column;gap:0;}
+.chat-hero{background:var(--white);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:28px 28px 20px;box-shadow:0 4px 20px var(--shadow);}
+.chat-hero-top{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+.bot-avatar{width:52px;height:52px;background:linear-gradient(135deg,var(--orange1),var(--orange2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 16px rgba(255,107,43,0.3);flex-shrink:0;}
+.bot-info{}
+.bot-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);}
+.bot-desc{font-size:0.78rem;color:var(--muted);margin-top:2px;}
+.chat-hero-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:6px 14px;background:var(--grey1);border:1px solid var(--border);border-radius:20px;font-size:0.75rem;color:var(--grey5);font-weight:500;cursor:pointer;transition:all 0.2s;}
+.chip:hover{background:var(--orange4);border-color:rgba(255,107,43,0.25);color:var(--orange1);}
+.chip.active{background:var(--orange1);border-color:var(--orange1);color:white;}
+
+/* ── MESSAGES ── */
+.messages-wrap{background:var(--white);border-left:1px solid var(--border);border-right:1px solid var(--border);padding:20px 24px;height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;}
+.msg-row{display:flex;gap:10px;animation:msgIn 0.3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.msg-row.user{flex-direction:row-reverse;}
+.msg-avatar{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;margin-top:2px;}
+.msg-avatar.bot{background:linear-gradient(135deg,var(--orange1),var(--orange2));box-shadow:0 2px 8px rgba(255,107,43,0.25);}
+.msg-avatar.user{background:var(--grey2);border:1px solid var(--border);}
+.msg-bubble{max-width:75%;padding:13px 16px;border-radius:16px;font-size:0.88rem;line-height:1.65;}
+.msg-bubble.bot{background:var(--grey1);border:1px solid var(--border);color:var(--text);border-top-left-radius:4px;}
+.msg-bubble.user{background:linear-gradient(135deg,var(--orange1),var(--orange2));color:white;border-top-right-radius:4px;box-shadow:0 4px 12px rgba(255,107,43,0.25);}
+.msg-time{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--grey4);margin-top:4px;}
+.msg-time.user{text-align:right;}
+
+/* ── TYPING ── */
+.typing-row{display:flex;gap:10px;}
+.typing-bubble{background:var(--grey1);border:1px solid var(--border);border-radius:16px;border-top-left-radius:4px;padding:14px 18px;display:flex;gap:5px;align-items:center;}
+.typing-dot{width:7px;height:7px;background:var(--grey4);border-radius:50%;animation:bounce 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+
+/* ── INPUT AREA ── */
+.input-area{background:var(--white);border:1px solid var(--border);border-radius:0 0 20px 20px;padding:16px 20px;box-shadow:0 4px 20px var(--shadow);}
+.input-row{display:flex;gap:10px;align-items:center;}
+.chat-input{flex:1;background:var(--grey1);border:1.5px solid var(--border);border-radius:50px;padding:12px 20px;font-family:'Inter',sans-serif;font-size:0.9rem;color:var(--text);outline:none;transition:all 0.2s;}
+.chat-input:focus{border-color:var(--orange2);background:var(--white);box-shadow:0 0 0 3px rgba(255,107,43,0.08);}
+.chat-input::placeholder{color:var(--grey4);}
+.send-btn{width:46px;height:46px;background:linear-gradient(135deg,var(--orange1),var(--orange2));border:none;border-radius:50%;color:white;font-size:1.1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(255,107,43,0.3);}
+.send-btn:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(255,107,43,0.4);}
+.send-btn:active{transform:scale(0.96);}
+.input-hint{font-size:0.72rem;color:var(--grey4);text-align:center;margin-top:10px;font-family:'JetBrains Mono',monospace;}
+
+/* ── EMPTY STATE ── */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;opacity:0.6;}
+.empty-icon{font-size:2.5rem;filter:grayscale(0.3);}
+.empty-text{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;color:var(--grey5);}
+.empty-sub{font-size:0.8rem;color:var(--grey4);text-align:center;max-width:220px;line-height:1.5;}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;text-align:center;padding:20px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--grey4);}
+footer span{color:var(--orange1);}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern">
+  <div class="bg-circle bc1"></div>
+  <div class="bg-circle bc2"></div>
+  <div class="bg-circle bc3"></div>
+</div>
+
+<header>
+  <div class="header-left">
+    <div class="logo-icon">🎓</div>
+    <div>
+      <div class="logo-text">Student<span>Desk</span></div>
+      <div class="logo-sub">Manipal Institute of Technology</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="status-badge"><div class="status-dot"></div>Bot Online</div>
+    <div class="powered-badge">Powered by Amazon Lex</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">Quick Questions</div>
+      <div class="quick-btns">
+        <button class="qbtn" onclick="sendQuick('When are the exams?')"><span class="qbtn-icon">📅</span>Exam Schedule</button>
+        <button class="qbtn" onclick="sendQuick('CN exam date')"><span class="qbtn-icon">📝</span>CN Exam Details</button>
+        <button class="qbtn" onclick="sendQuick('DBMS exam date')"><span class="qbtn-icon">💾</span>DBMS Exam Details</button>
+        <button class="qbtn" onclick="sendQuick('CC exam date')"><span class="qbtn-icon">☁️</span>CC Exam Details</button>
+        <button class="qbtn" onclick="sendQuick('Library timings')"><span class="qbtn-icon">📚</span>Library Hours</button>
+        <button class="qbtn" onclick="sendQuick('CSE admission')"><span class="qbtn-icon">🎯</span>CSE Admission</button>
+        <button class="qbtn" onclick="sendQuick('Fee structure')"><span class="qbtn-icon">💰</span>Fee Structure</button>
+        <button class="qbtn" onclick="sendQuick('Campus services')"><span class="qbtn-icon">🏛️</span>Campus Services</button>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Topics I can help with</div>
+      <div class="topic-tags">
+        <span class="tag" onclick="sendQuick('When are the exams?')">Exams</span>
+        <span class="tag" onclick="sendQuick('Tell me about B.Tech CSE')">Courses</span>
+        <span class="tag" onclick="sendQuick('CSE admission')">Admissions</span>
+        <span class="tag" onclick="sendQuick('Fee structure')">Fees</span>
+        <span class="tag" onclick="sendQuick('Library timings')">Library</span>
+        <span class="tag" onclick="sendQuick('Campus services')">Campus</span>
+        <span class="tag" onclick="sendQuick('AIML exam date')">AI/ML</span>
+        <span class="tag" onclick="sendQuick('OOPS exam date')">OOPS</span>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-title">Need More Help?</div>
+      <div class="info-card-text">Our helpdesk team is available during working hours for complex queries.</div>
+      <div class="info-card-contact">
+        <span>📧 helpdesk@manipal.edu</span>
+        <span>📞 1800-123-4567</span>
+        <span>🕐 Mon-Fri, 9AM-5PM</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CHAT -->
+  <div class="chat-area">
+    <div class="chat-hero">
+      <div class="chat-hero-top">
+        <div class="bot-avatar">🤖</div>
+        <div class="bot-info">
+          <div class="bot-name">MIT Student Assistant</div>
+          <div class="bot-desc">Ask me about exams, courses, admissions, fees, library and campus services</div>
+        </div>
+      </div>
+      <div class="chat-hero-chips">
+        <div class="chip" onclick="sendQuick('When are the exams?')">📅 Exam dates</div>
+        <div class="chip" onclick="sendQuick('Tell me about B.Tech CSE')">📚 Courses</div>
+        <div class="chip" onclick="sendQuick('Admission details')">🎓 Admissions</div>
+        <div class="chip" onclick="sendQuick('Fee structure')">💰 Fees</div>
+        <div class="chip" onclick="sendQuick('Library timings')">📖 Library</div>
+      </div>
+    </div>
+
+    <div class="messages-wrap" id="messages">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">💬</div>
+        <div class="empty-text">How can I help you today?</div>
+        <div class="empty-sub">Ask me anything about exams, courses, admissions or campus life</div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything — exams, courses, admissions..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="input-hint">Powered by Amazon Lex · AWS Cloud · StudentHelpdeskBot</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Built on <span>Amazon Web Services</span> · Amazon Lex · IAM · S3 · MIT Student Helpdesk © 2026
+</footer>
+
+<script>
+  // ── CONFIG ──
+  const API_URL = "https://po4opho056.execute-api.us-east-1.amazonaws.com/chat";
+  const SESSION_ID = "student-" + Math.random().toString(36).substr(2,9);
+
+  let messageCount = 0;
+
+  function getTime() {
+    return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  }
+
+  function removeEmpty() {
+    const e = document.getElementById("emptyState");
+    if (e) e.remove();
+  }
+
+  function addMessage(text, type) {
+    removeEmpty();
+    const messages = document.getElementById("messages");
+    const row = document.createElement("div");
+    row.className = `msg-row ${type}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = `msg-avatar ${type}`;
+    avatar.textContent = type === "bot" ? "🤖" : "👤";
+
+    const bubble = document.createElement("div");
+    bubble.className = `msg-bubble ${type}`;
+    bubble.textContent = text;
+
+    const timeDiv = document.createElement("div");
+    timeDiv.className = `msg-time ${type}`;
+    timeDiv.textContent = getTime();
+
+    const content = document.createElement("div");
+    content.appendChild(bubble);
+    content.appendChild(timeDiv);
+
+    if (type === "user") {
+      row.appendChild(content);
+      row.appendChild(avatar);
+    } else {
+      row.appendChild(avatar);
+      row.appendChild(content);
+    }
+
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+    messageCount++;
+  }
+
+  function showTyping() {
+    removeEmpty();
+    const messages = document.getElementById("messages");
+    const row = document.createElement("div");
+    row.className = "typing-row";
+    row.id = "typingIndicator";
+
+    const avatar = document.createElement("div");
+    avatar.className = "msg-avatar bot";
+    avatar.textContent = "🤖";
+
+    const bubble = document.createElement("div");
+    bubble.className = "typing-bubble";
+    bubble.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById("typingIndicator");
+    if (t) t.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+    addMessage(text, "user");
+    showTyping();
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          sessionId: SESSION_ID
+        })
+      });
+      const data = await res.json();
+      removeTyping();
+      addMessage(data.response || "I am sorry, I could not process that. Please try again.", "bot");
+    } catch (err) {
+      removeTyping();
+      addMessage("I am having trouble connecting right now. Please try again in a moment.", "bot");
+    }
+  }
+
+  function sendQuick(text) {
+    document.getElementById("chatInput").value = text;
+    sendMessage();
+  }
+
+  // Welcome message after 1 second
+  setTimeout(() => {
+    addMessage("Hello! Welcome to Manipal Institute of Technology Student Helpdesk. I can help you with exam schedules, course details, admissions, fees, library timings and campus services. What would you like to know?", "bot");
+  }, 1000);
+</script>
+</body>
+</html>
