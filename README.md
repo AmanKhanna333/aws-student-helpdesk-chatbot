@@ -29,3 +29,34 @@ See `StudentHelpdeskBot_ProjectReport.pdf` for full documentation.
 - IAM least-privilege access for team collaboration
 
 ## Architecture
+
+| Service | Role |
+|---|---|
+| Amazon Lex V2 | NLU engine — 20 intents, natural language processing |
+| AWS Lambda (Python) | Connector between API Gateway and Lex |
+| Amazon API Gateway | POST /chat endpoint with CORS |
+| Amazon S3 | Hosts the chat interface frontend |
+| Amazon CloudFront | HTTPS delivery via CDN |
+| AWS IAM | 3 team IAM users with least-privilege policies |
+
+## Intent Categories
+
+| Category | Intents | Built by |
+|---|---|---|
+| Exam Schedule | ExamScheduleIntent, ExamDetailIntent | Aman |
+| Subject Exams | CN, CC, DBMS, AIML, OOPS intents | Aman |
+| Courses | CourseDetailsIntent | Moksha |
+| Admissions | AdmissionIntent + 6 branch intents | Moksha |
+| Fees | FeeStructureIntent | Moksha |
+| Library | LibraryIntent | Krithika |
+| Campus | CampusServicesIntent | Krithika |
+| Fallback | FallbackIntent | Moksha |
+
+## Key Concepts Practiced
+- Amazon Lex V2 intent design with 15+ utterances per intent
+- Multi-turn conversation without Lambda slot filling
+- IAM least-privilege team collaboration
+- Serverless Lambda connector in Python using boto3
+- API Gateway CORS for cross-domain browser requests
+- CloudFront HTTPS in front of S3
+- Debugging IAM authentication issues for team members
